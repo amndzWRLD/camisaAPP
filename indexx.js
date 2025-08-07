@@ -19,7 +19,20 @@ const app = express();
 app.use(express.json());
 app.use('/api/rutasUsuario',routes);
 // Middleware para parsear JSON en las peticiones (body-parser integrado)
-app.use(express.static(path.join(__dirname, 'public')));
+
+//app.use(express.static(path.join(__dirname, 'public')));
+app.get('/camiseta', (req, res) =>{
+    res.sendFile(path.join(__dirname, 'public', 'camiseta.html'));
+});
+
+app.get('/registro', (req, res) =>{
+    res.sendFile(path.join(__dirname, 'public', 'registro.html'));
+});
+
+app.get('login', (req, res) =>{
+    res.sendFile(path.join(__dirname, 'public', 'login.html'));
+});
+
 const PORT =process.env.PORT || 3000;
 app.listen(PORT, () =>{
     console.log(`Servidor API escuchando en http://localhost:${PORT}`);
