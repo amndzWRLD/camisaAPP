@@ -1,8 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-</head>
-<body>
+<html>
+<head></head>
+  <body>
     <input type="text" id="inputnombre" placeholder="Escriba el nombre">
     <input type="email" id="inputemail" placeholder="Escriba el email">
     <input type="password" id="inputpassword" placeholder="Escriba el password">
@@ -10,43 +9,32 @@
 
     <script>
 
-    function registrar() {
+    async function registrar() 
 
+    {
         const datos = {
             nombre: document.getElementById("inputnombre").value,
             email: document.getElementById("inputemail").value,
             clave: document.getElementById("inputpassword").value,
         };
 
-    // Enviar datos para crear un nuevo usuario (POST)
-    fetch('/api/rutasUsuario', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      nombre: document.getElementById("inputnombre").value,
-      email: document.getElementById("inputemail").value,
-      clave: document.getElementById("inputpassword").value
-    })
-  })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(`Error HTTP: ${response.status}`);
+        const respuesta = await fetch('/api/rutasUsuario',{
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(datos)
+      });
+      if (!respuesta.ok) {
+      const error = await respuesta.json();
+      throw new Error(error.error || 'Error en la solicitud');
       }
-      return response.json();
-    })
-    .then(data => {
-      console.log('Usuario creado:', data);
-      alert("Creado con éxito");
-    })
-    .catch(error => {
-      console.error('❌ Error al registrar usuario:', error.message);
-      alert("Hubo un error al registrar el usuario.");
-    });
-}
+      const resultado = await respuesta.json();
+      console.log('Usuario creado con fetch:', resultado);
+    }
   
 
     </script>
 
-
-</body>
+  </body>
 </html>

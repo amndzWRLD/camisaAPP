@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Iniciar Sesión</title>
+</head>
+<body>
+  <h2>Login</h2>
+
+  <form id="formLogin">
+    <input type="email" id="email" placeholder="Correo electrónico" required><br>
+    <input type="password" id="clave" placeholder="Contraseña" required><br>
+    <button type="submit">Iniciar sesión</button>
+  </form>
+
+  <p id="mensaje"></p>
+
+  <script>
+    document.getElementById('formLogin').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const datos = {
+        email: document.getElementById('email').value,
+        clave: document.getElementById('clave').value
+      };
+
+      try {
+        const respuesta = await fetch('/api/usuarios/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(datos)
+        });
+
+        const resultado = await respuesta.json();
+
+        if (!respuesta.ok) {
+          document.getElementById('mensaje').innerText = resultado.error || 'Credenciales inválidas';
+          return;
+        }
+ 
+        // Guardar el token en localStorage
+        localStorage.setItem('token', resultado.token);
+        document.getElementById('mensaje').innerText = '¡Inicio de sesión exitoso!';
+
+        // Redireccionar o continuar lógica
+        // window.location.href = 'dashboard.html'; // si aplica
+const token = localStorage.getItem('token');
+location.href = `/camiseta?token=${encodeURIComponent(token)}`;
+      } catch (error) {
+        console.error('Error al iniciar sesión:', error);
+        document.getElementById('mensaje').innerText = 'Ocurrió un error en el servidor.';
+      }
+    });
+  </script>
+</body>
+</html>
