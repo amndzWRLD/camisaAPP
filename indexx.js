@@ -1,9 +1,8 @@
 const mongoose = require('mongoose'); // importamos la librería Mongoose
-const path = require('path');
+const path = require('path'); //Modulo para rutas absolutas
 // URI de conexión a MongoDB (MongoDB Atlas en este caso).
 // Reemplaza <usuario>, <password> y <tuBase> por tus datos reales.
-const mongoURI =
-'mongodb+srv://unseenmr82:123@cluster0.lvehoih.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+const mongoURI = "mongodb+srv://unseenmr82:123@cluster0.lvehoih.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 // Opciones recomendadas para evitar advertencias (según la versión de Mongoose)
 const options = {
 useNewUrlParser: true, // Usa el nuevo parser de URL Mongo
@@ -18,10 +17,10 @@ const express = require('express');
 const routes = require('./rutas/rutasUsuario');
 const app = express();
 app.use(express.json());
-app.use('/api/rutasUsuario', routes);
+app.use('/api/rutasUsuario',routes);
 // Middleware para parsear JSON en las peticiones (body-parser integrado)
 app.use(express.static(path.join(__dirname, 'public')));
 const PORT =process.env.PORT || 3000;
 app.listen(PORT, () =>{
-    console.log('Servidor API escuchando en https://localhost:${PORT}');
+    console.log(`Servidor API escuchando en http://localhost:${PORT}`);
 });

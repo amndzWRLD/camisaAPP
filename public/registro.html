@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+</head>
+<body>
+    <input type="text" id="inputnombre" placeholder="Escriba el nombre">
+    <input type="email" id="inputemail" placeholder="Escriba el email">
+    <input type="password" id="inputpassword" placeholder="Escriba el password">
+    <input type="button" value="Registrar" onclick="registrar()">
+
+    <script>
+
+    function registrar() {
+
+        const datos = {
+            nombre: document.getElementById("inputnombre").value,
+            email: document.getElementById("inputemail").value,
+            clave: document.getElementById("inputpassword").value,
+        };
+
+    // Enviar datos para crear un nuevo usuario (POST)
+    fetch('/api/rutasUsuario', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      nombre: document.getElementById("inputnombre").value,
+      email: document.getElementById("inputemail").value,
+      clave: document.getElementById("inputpassword").value
+    })
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`Error HTTP: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log('Usuario creado:', data);
+      alert("Creado con éxito");
+    })
+    .catch(error => {
+      console.error('❌ Error al registrar usuario:', error.message);
+      alert("Hubo un error al registrar el usuario.");
+    });
+}
+  
+
+    </script>
+
+
+</body>
+</html>
